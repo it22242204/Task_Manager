@@ -13,8 +13,12 @@ export const createUser = async (req: Request, res: Response) => {
       },
     });
     res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({ error: 'Error creating user' });
+  } catch (error: any) {
+    console.error('Error creating user:', error);
+    if (error.code === 'P2002') {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Error creating user', details: error.message });
   }
 };
 

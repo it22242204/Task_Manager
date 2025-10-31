@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 export const createTask = async (req: Request, res: Response) => {
   try {
     const { title, description, assigneeId, creatorId, dueDate } = req.body;
+    console.log('Incoming task payload:', { title, description, assigneeId, creatorId, dueDate });
     const task = await prisma.task.create({
       data: {
         title,
