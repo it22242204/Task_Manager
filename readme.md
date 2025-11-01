@@ -183,15 +183,6 @@ export interface UpdateTaskData extends TaskFormData {
 }
 ```
 
----
-
-## Screenshots
-
-| Tasks Page | Task Form | User Management |
-|-----------|----------|-----------------|
-| ![Tasks](https://via.placeholder.com/600x400?text=Tasks+Page) | ![Form](https://via.placeholder.com/400x500?text=Task+Form) | ![Users](https://via.placeholder.com/600x400?text=Users+Page) |
-
----
 
 ## Future Enhancements
 
