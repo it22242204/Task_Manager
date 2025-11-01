@@ -6,18 +6,27 @@ const prisma = new PrismaClient();
 export const createTask = async (req: Request, res: Response) => {
   try {
     const { title, description, assigneeId, creatorId, dueDate } = req.body;
-    console.log('Incoming task payload:', { title, description, assigneeId, creatorId, dueDate });
+
+    console.log('Incoming payload:', { title, description, assigneeId, creatorId, dueDate });
+
+    // Validate required fields
+    if (!title || !creatorId) {
+      return res.status(400).json({ error: 'Title and creatorId are required' });
+    }
+
     const task = await prisma.task.create({
       data: {
         title,
         description,
-        assigneeId,
+        assigneeId: assigneeId || null,
         creatorId,
-        dueDate: dueDate ? new Date(dueDate) : null,
+        dueDate: dueDate || null,
       },
     });
+
     res.status(201).json(task);
-  } catch (error) {
+  } catch (error: any) {
+    console.error('Prisma create error:', error); 
     res.status(500).json({ error: 'Error creating task' });
   }
 };
