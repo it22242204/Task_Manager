@@ -13,8 +13,12 @@ export const createUser = async (req: Request, res: Response) => {
       },
     });
     res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({ error: 'Error creating user' });
+  } catch (error: any) {
+    console.error('Error creating user:', error);
+    if (error.code === 'P2002') {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Error creating user', details: error.message });
   }
 };
 
@@ -69,8 +73,9 @@ export const deleteUser = async (req: Request, res: Response) => {
     await prisma.user.delete({
       where: { id: Number(id) },
     });
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ error: 'Error deleting user' });
+    res.status(200).json({ message: 'User deleted' });
+  } catch (error: any) {
+    console.error('Delete user error:', error);
+    res.status(500).json({ error: 'Failed to delete user' });
   }
 };
